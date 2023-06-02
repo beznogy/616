@@ -69,7 +69,22 @@
       font-size: 24px;
       color: #606060;
     }
-
+.button-container {
+    position: absolute;
+    bottom: 20px;
+    left: 61%;
+    transform: translateX(-50%);
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .button-container button {
+    padding: 10px 20px;
+    font-size: 16px;
+  }
     .slider-container .slider-icon.muted:before {
       content: "🔇";
     }
@@ -149,7 +164,10 @@
     <source src="" type="video/mp4" id="source-video">
   </video>
 
-  <div class="container">
+<div class="container">
+  <div class="button-container">
+    <button onclick="changeVideo()">random video</button>
+  </div>
     <div id="quote-container">
       <ul id="quote-list">
         <li>«Одни евреи достойны названия людей, а гои, происходящие от злых духов, имеют лишь право называться свиньями». (Jalkut Reubeni, folio 10, b)</li>
@@ -903,42 +921,48 @@
     </div>
   </div>
 
-  <script>
-   var video = document.getElementById("video-background");
-    var sourceVideo = document.getElementById("source-video");
-    var volumeSlider = document.getElementById("volume-slider");
-    var volumeIcon = document.getElementById("volume-icon");
-	   var videos = [
-      "1.mp4",
-      "2.mp4",
-      "3.mp4",
-	  "4.mp4",
-      "5.mp4",
-      "6.mp4",
-	  "7.mp4",
-      "8.mp4",
-      "9.mp4",
-    ];
-    function changeVideo() {
-      var randomIndex = Math.floor(Math.random() * videos.length);
-      var videoSrc = videos[randomIndex];
-      sourceVideo.setAttribute("src", videoSrc);
-      video.load();
-      video.play();
+<script>
+  var video = document.getElementById("video-background");
+  var sourceVideo = document.getElementById("source-video");
+  var volumeSlider = document.getElementById("volume-slider");
+  var volumeIcon = document.getElementById("volume-icon");
+  var videos = [
+    "1.mp4",
+    "2.mp4",
+    "3.mp4",
+    "4.mp4",
+    "5.mp4",
+    "6.mp4",
+    "7.mp4",
+    "8.mp4",
+    "9.mp4",
+  ];
+  
+  function changeVideo() {
+    var randomIndex = Math.floor(Math.random() * videos.length);
+    var videoSrc = videos[randomIndex];
+    sourceVideo.setAttribute("src", videoSrc);
+    video.load();
+    video.play();
+  
+    var button = document.getElementById("random-video-button");
+    button.setAttribute("data-video-index", randomIndex);
+  }
+  
+  function changeVolume() {
+    if (volumeSlider.value > 0) {
+      video.muted = false;
+      volumeIcon.textContent = "🔊";
+      volumeIcon.classList.remove("muted");
+    } else {
+      video.muted = true;
+      volumeIcon.textContent = "";
+      volumeIcon.classList.add("muted");
     }
-    function changeVolume() {
-      if (volumeSlider.value > 0) {
-        video.muted = false;
-        volumeIcon.textContent = "🔊";
-        volumeIcon.classList.remove("muted");
-      } else {
-        video.muted = true;
-        volumeIcon.textContent = "";
-        volumeIcon.classList.add("muted");
-      }
-      video.volume = volumeSlider.value;
-    }
-	    changeVideo();
-  </script>
+    video.volume = volumeSlider.value;
+  }
+  
+  changeVideo();
+</script>
 </body>
 </html>
